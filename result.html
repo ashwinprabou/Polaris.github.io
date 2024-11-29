@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placeholder Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EC5353; /* Matches the background color */
+            color: #ffffff; /* Matches the text color */
+            text-align: center;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* Full-screen background */
+            z-index: 0; /* Layer it below everything else */
+            pointer-events: none; /* Prevent interaction with popcorn elements */
+        }
+
+        /* Popcorn Falling Animation */
+        .popcorn-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* Restrict falling to 80% of the screen */
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        h2 {
+
+            margin-bottom: 60px;
+            z-index: 2;
+        }
+
+        .content {
+            margin-bottom: 50px;
+            z-index: 2;
+        }
+
+        .content p {
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: white;
+            color: #EC5353;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        button:hover {
+            background-color: #e17f7f;
+            color:#ffffff;
+        }
+
+        .popcorn {
+            position: absolute;
+            top: -50px; /* Start above the viewport */
+            width: 30px; /* Popcorn size */
+            height: 30px;
+            background: url('popcorn.png') no-repeat center/contain; /* Replace with your popcorn image */
+            animation: fall linear infinite; /* Falling animation */
+            opacity: 0.5; /* Slight transparency */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px); /* Start just above the viewport */
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(110vh); /* Fall past the screen */
+                opacity: 0; /* Fade out as it falls */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+        <div class="popcorn-container"></div>
+    </div>
+    <!-- Header Section -->
+    <h2>NAME</h2>
+    
+    <!-- Main Content Section -->
+    <div class="content">
+        <p><strong>Top Movie Genre:</strong> Genre %</p>
+        <p><strong>Other Genres:</strong></p>
+        <p>Genre %</p>
+        <p>Genre %</p>
+        <p>Genre %</p>
+    </div>
+
+    <!-- Button Section -->
+    <button onclick="window.location.href='SCAI.html'">Generate Again!</button>
+
+    <script>
+        const popcornContainer = document.querySelector('.popcorn-container');
+        function createPopcorn() {
+                const popcorn = document.createElement('div');
+                popcorn.classList.add('popcorn');
+    
+                // Randomize position and animation duration
+                popcorn.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+                popcorn.style.animationDuration = Math.random() * 3 + 4 + 's'; // Random duration between 2s and 5s
+                popcorn.style.width = Math.random() * 40 + 40 + 'px'; // Random size between 20px and 40px
+                popcorn.style.height = popcorn.style.width; // Keep the shape square
+    
+                popcornContainer.appendChild(popcorn);
+    
+                // Remove popcorn after animation ends
+                setTimeout(() => {
+                    popcorn.remove();
+                }, 7000); // Match the longest animation duration
+            }
+    
+            // Generate popcorn at intervals
+            setInterval(createPopcorn, 200); // Adjust frequency of falling popcorn
+    </script>
+</body>
+</html>
