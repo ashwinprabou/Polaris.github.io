@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polaris Home</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fafafa;
+            text-align: center;
+            margin: 0;
+            background-color: #EC5353;
+            overflow: hidden; /* Prevent scrollbars from showing */
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* Full-screen background */
+            z-index: 0; /* Layer it below everything else */
+            pointer-events: none; /* Prevent interaction with popcorn elements */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 150px;
+            z-index: 1; /* Keep it above the background */
+            position: relative; /* For proper z-index stacking */
+        }
+
+        #nameList {
+            margin-top: 30px;
+            background-color: #fafafa;
+            list-style-type: disc;
+            color: black;
+        }
+
+        ul {
+            width: 150px;
+            border: 1px solid #fafafa;
+            padding: 20px;
+            margin: 0;
+            text-align: center;
+        }
+
+        a {
+            margin-top: 20px;
+            background-color: #fafafa;
+            color: #EC5353;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #fafafa;
+            color: #EC5353;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e17f7f;
+            color:#ffffff;
+        }
+
+        /* Popcorn Falling Animation */
+        .popcorn-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80%; /* Restrict falling to 80% of the screen */
+        }
+
+        .popcorn {
+            position: absolute;
+            top: -50px; /* Start above the viewport */
+            width: 30px; /* Popcorn size */
+            height: 30px;
+            background: url('popcorn.png') no-repeat center/contain; /* Replace with your popcorn image */
+            animation: fall linear infinite; /* Falling animation */
+            opacity: 0.5; /* Slight transparency */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px); /* Start just above the viewport */
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(110vh); /* Fall past the screen */
+                opacity: 0; /* Fade out as it falls */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Layer -->
+    <div class="background">
+        <div class="popcorn-container"></div>
+    </div>
+
+    <!-- Foreground Content -->
+    <div class="container">
+        <h1>POLARIS</h1>
+        <label for="actorName">Enter Actor Name:</label>
+        <input type="text" id="actorName" placeholder="Name">
+        <ul id="nameList">
+            <!-- dynamically add list items -->
+        </ul>
+        <button onclick="window.location.href='PolarisResult.html'">Generate!</button>
+    </div>
+
+    <script>
+        const inputField = document.getElementById('actorName');
+        const nameList = document.getElementById('nameList');
+        const popcornContainer = document.querySelector('.popcorn-container');
+
+        // Functionality: Add names to the list
+        inputField.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const name = inputField.value.trim();
+                if (name) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = name;
+                    nameList.appendChild(listItem);
+                    inputField.value = '';
+                }
+            }
+        });
+
+        // Functionality: Create falling popcorn
+        function createPopcorn() {
+            const popcorn = document.createElement('div');
+            popcorn.classList.add('popcorn');
+
+            // Randomize position and animation duration
+            popcorn.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            popcorn.style.animationDuration = Math.random() * 3 + 4 + 's'; // Random duration between 2s and 5s
+            popcorn.style.width = Math.random() * 40 + 40 + 'px'; // Random size between 20px and 40px
+            popcorn.style.height = popcorn.style.width; // Keep the shape square
+
+            popcornContainer.appendChild(popcorn);
+
+            // Remove popcorn after animation ends
+            setTimeout(() => {
+                popcorn.remove();
+            }, 7000); // Match the longest animation duration
+        }
+
+        // Generate popcorn at intervals
+        setInterval(createPopcorn, 200); // Adjust frequency of falling popcorn
+    </script>
+</body>
+</html>
